@@ -17,6 +17,7 @@ const styles = {
 class ImageGrid extends Component {
   state = {
     currentRound: 0,
+    imageSelected: null,
     rounds: [
       {
         roundId: '00',
@@ -61,10 +62,28 @@ class ImageGrid extends Component {
     ],
   }
 
-  handleClick = () => {
-    const { currentRound } = this.state
-    console.log('I WAS CLICKED');
-    this.setState({currentRound: currentRound + 1});
+  isWinningSelection = () => {
+    const { currentRound } = this.state;
+    if (this.state.imageSelected === 'b') {
+      this.setState(
+        {
+          currentRound: currentRound + 1,
+        }
+      );
+
+    } else {
+      alert('you lose');
+    }
+  }
+
+  handleClick = (version) => {
+    console.log('I WAS CLICKED', version);
+    this.setState(
+      {
+        imageSelected: version
+      },
+      this.isWinningSelection
+    );
   }
 
   getImageUrl = (number, version) => {
@@ -77,7 +96,12 @@ class ImageGrid extends Component {
     const images = [];
 
     // create the baseImageUrls based on the current round
-    const baseImageUrls = rounds[round].images.map(i => this.getImageUrl(rounds[round].roundId, i))
+    const baseImageUrls = rounds[round].images.map(i => {
+      return {
+        url: this.getImageUrl(rounds[round].roundId, i),
+        version: i
+      }
+    })
 
     // add three of the 'a' images to images array
     for (let i = 0; i < 3; i++) {
@@ -98,8 +122,10 @@ class ImageGrid extends Component {
     // actually shuffle images array
     const shuffledImages = shuffledArray(images);
 
+    console.log(shuffledImages)
+
     // return shuffled <Image/> components
-    return shuffledImages.map((url, i) => <Image key={url+i} imgSrc={url} handleClick={this.handleClick}/>);
+    return shuffledImages.map((image) => <Image imgSrc={image.url} handleClick={this.handleClick} version={image.version}/>);
   }
 
   render() {

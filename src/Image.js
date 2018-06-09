@@ -8,9 +8,9 @@ const styles = {
 }
 
 const Image = (props) => {
-  const { imgSrc } = props;
+  const { handleClick, imgSrc, version } = props;
   return (
-    <img style={styles.image} src={imgSrc} alt={"imgSrc"} onClick={() => props.handleClick()}/>
+    <img style={styles.image} src={imgSrc} alt={"imgSrc"} onClick={() => handleClick(version)}/>
   );
 };
 
