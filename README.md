@@ -6,3 +6,8 @@ You can find the most recent version of the create-react-app guide [here](https:
 
 ## Details
 Spot the difference game that awards users points based on the number of seconds it takes them to locate the unique image.
+
+### To run:
+yarn install
+
+yarn start
